@@ -289,21 +289,21 @@ if __name__ == '__main__':
         elif ('[gac]' in checkFilename[0:5] or '[gac]' in checkFilename[5:10]):
             instrument_code = 11
         elif ('[gel]' in checkFilename[0:5] or '[gel]' in checkFilename[5:10]):
-            instrument_code = 4
+            instrument_code = 13
         elif ('[org]' in checkFilename[0:5] or '[org]' in checkFilename[5:10]):
-            instrument_code = 5
-        elif ('[pia]' in checkFilename[0:5] or '[pia]' in checkFilename[5:10]):
             instrument_code = 6
+        elif ('[pia]' in checkFilename[0:5] or '[pia]' in checkFilename[5:10]):
+            instrument_code = 1
         elif ('[sax]' in checkFilename[0:5] or '[sax]' in checkFilename[5:10]):
-            instrument_code = 7
+            instrument_code = 25
         elif ('[tru]' in checkFilename[0:5] or '[tru]' in checkFilename[5:10]):
-            instrument_code = 8
+            instrument_code = 21
         elif ('[vio]' in checkFilename[0:5] or '[vio]' in checkFilename[5:10]):
-            instrument_code = 9
+            instrument_code = 15
         elif ('[cla]' in checkFilename[0:5] or '[cla' in checkFilename[5:10]):
-            instrument_code = 10
+            instrument_code = 31
         elif ('[voi]' in checkFilename[0:5] or '[voi]' in checkFilename[5:10]):
-            instrument_code = 11
+            instrument_code = 51
         else:
             instrument_code = 0
             print('Unknown instrument found in the file', checkFilename)
