@@ -1,7 +1,7 @@
 import sys, os
 import essentia.standard
 from essentia.streaming import *
-import numpy as np
+import numpy
 import pandas as pd
 import glob
 

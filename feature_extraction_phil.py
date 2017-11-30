@@ -286,21 +286,21 @@ if __name__ == '__main__':
         # Preprocess the music file to get features from it
         if 'cel' in filenameNew[0:3]:
             instrument_code = 17
-        elif 'flu' in filename[0:3]:
+        elif 'flu' in filenameNew[0:3]:
             instrument_code = 33
-        elif 'ban' in filename[0:3]:
+        elif 'ban' in filenameNew[0:3]:
             instrument_code = 36
-        elif 'cla' in filename[0:3]:
+        elif 'cla' in filenameNew[0:3]:
             instrument_code = 31
-        elif 'gui' in filename[0:3]:
+        elif 'gui' in filenameNew[0:3]:
             instrument_code = 9
-        elif 'man' in filename[0:3]:
+        elif 'man' in filenameNew[0:3]:
             instrument_code = 12
-        elif 'sax' in filename[0:3]:
+        elif 'sax' in filenameNew[0:3]:
             instrument_code = 25
-        elif 'tru' in filename[0:3]:
+        elif 'tru' in filenameNew[0:3]:
             instrument_code = 21
-        elif 'vio' in filename[0:3]:
+        elif 'vio' in filenameNew[0:3]:
             instrument_code = 15
         else:
             instrument_code = 0
