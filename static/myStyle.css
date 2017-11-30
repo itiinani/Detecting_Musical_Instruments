@@ -1,0 +1,87 @@
+rect.bar {
+	
+	shape-rendering: crispEdges;
+}
+h2
+{
+	padding-bottom:0px;
+}
+a:active { 
+    background-color: red;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+}
+
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 16px;
+	color: #818181;
+	display: block;
+	transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus {
+	color: #f1f1f1;
+	background-color:red;
+}
+
+.sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {
+		padding-top: 15px;
+	}
+	.sidenav a {
+		font-size: 18px;
+	}
+}
+.toolTip {
+  position: absolute;
+  display: none;
+  min-width: 30px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 8px;
+  text-align: center;
+}
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+ color:white;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+.legend {                                                   /* NEW */
+        font-size: 12px;                                          /* NEW */
+      }                                                           /* NEW */
+      rect {                                                      /* NEW */
+        stroke-width: 2;                                          /* NEW */
+      }      

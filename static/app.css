@@ -1,0 +1,98 @@
+
+
+.chart text {
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+svg {
+		font: 10px sans-serif;
+        margin: auto;
+		display: block;
+	}
+
+	path {
+		fill: none;
+	stroke-width: 1.5px;
+	}
+    path line {
+  fill: none;
+  stroke: #000;
+}
+
+	.axis path,
+	.axis line {
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
+	}
+
+	path.slice{
+	stroke-width:2px;
+}
+
+polyline{
+	opacity: .3;
+	stroke: black;
+	stroke-width: 2px;
+	fill: none;
+}
+
+.labelValue
+{
+	font-size: 60%;
+	opacity: .5;
+
+}
+
+.toolTip {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    position: absolute;
+    display: none;
+    width: auto;
+    height: auto;
+    background: none repeat scroll 0 0 white;
+    border: 0 none;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: -3px 3px 15px #888888;
+    color: black;
+    font: 12px sans-serif;
+    padding: 5px;
+    text-align: center;
+}
+
+
+
+
+.axis path {
+	fill: none;
+	stroke: #bbb;
+	shape-rendering: crispEdges;
+}
+
+
+.axis line {
+	stroke: #e7e7e7;
+	shape-rendering: crispEdges;
+}
+
+.axis .axis-label {
+	font-size: 14px;
+}
+
+.line {
+	fill: none;
+	stroke-width: 1.5px;
+}
+
+.dot {
+	/* consider the stroke-with the mouse detect radius? */
+	stroke: transparent;
+	stroke-width: 10px;
+	cursor: pointer;
+}
+
+.dot:hover {
+	stroke: rgba(68, 127, 255, 0.3);
+}
