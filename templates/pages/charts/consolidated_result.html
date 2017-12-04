@@ -9,6 +9,7 @@
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -19,7 +20,12 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../../../static/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="../../../static/myStyleSheet.css">
+<script>
 
+
+
+
+</script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]-->
@@ -27,7 +33,6 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-<script src="../../../static/Graphs.js"></script>
   <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -37,9 +42,9 @@
     <!-- Logo -->
     <a href="../../index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>UC</b>Q</span>
+      <span class="logo-mini"><b>MI</b>D</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>UnCertainity</b>Quantifier</span>
+      <span class="logo-lg"><b>Musical Instrument</b>Detection</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -82,7 +87,7 @@
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="/">
-            <i class="fa fa-dashboard"></i> <span>Faulty Transcripts</span>
+            <i class="fa fa-dashboard"></i> <span>Detect Instruments</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -90,23 +95,26 @@
 
         </li>
         <li class="treeview">
-          <a href="/FD">
+          <a href="/results">
             <i class="fa fa-files-o"></i>
-            <span>All Transcripts</span>
+            <span>Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
 
         </li>
-         <li class="treeview">
-          <a href="/PC">
+
+          <li class="treeview">
+          <a href="/cons_results">
             <i class="fa fa-files-o"></i>
-            <span>Properties Graph</span>
+            <span>Consolidated Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+
+        </li>
 
 
 
@@ -120,12 +128,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       All Transcripts
+       Detect Musical Instruments
         <small>Data</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">All Transcripts</li>
+        <li class="active">Detect Musical Instruments</li>
       </ol>
     </section>
 
@@ -138,7 +146,7 @@
           <!-- AREA CHART -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Error Fraction</h3>
+              <h3 class="box-title">Confusion Matrix</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -147,10 +155,11 @@
               </div>
 
             </div>
-            <div id="allTranscriptsChart" class="box-body">
+            <div class="box-body">
 
-              <div class="chart" id = "allTranscripts">
-                <svg id="allTranscripts" ></svg>
+              <div class="chart">
+                  <img  src="../static/confusion_matrix.png" >
+
               </div>
             </div>
             <!-- /.box-body -->
@@ -167,7 +176,7 @@
           <!-- AREA CHART -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">TPM</h3>
+              <h3 class="box-title">Classification Report</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -175,10 +184,11 @@
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
             </div>
-            <div id="allTPMChart" class="box-body">
+           <div class="box-body">
 
-              <div class="chart" id = "allTPM">
-                <svg id="allTPM"></svg>
+              <div class="chart">
+                  <img  src="../static/classification_report.png" >
+
               </div>
             </div>
             <!-- /.box-body -->
