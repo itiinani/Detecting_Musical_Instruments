@@ -27,7 +27,7 @@
 
  function getInstrument(){
      var allText="";
-     jQuery.get('http://127.0.0.1:3012/static/Output.txt', function(data) {
+     jQuery.get('http://127.0.0.1:3013/static/Output.txt', function(data) {
     alert(data);
     allText = data;
     var imageID = '../static/'+allText+'.jpg';
@@ -127,23 +127,25 @@ function playFile(e){
 
         </li>
         <li class="treeview">
-          <a href="/AT">
+          <a href="/results">
             <i class="fa fa-files-o"></i>
-            <span>Confusion Matrix</span>
+            <span>Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
 
         </li>
-         <li class="treeview">
-          <a href="/PC">
+          <li class="treeview">
+          <a href="/cons_results">
             <i class="fa fa-files-o"></i>
-            <span>Properties Graph</span>
+            <span>Consolidated Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+
+        </li>
 
 
 
