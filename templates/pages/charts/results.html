@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Homicide Data Analysis</title>
+  <title>Uncertainity Quantifier</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="../../../static/bootstrap/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -19,7 +20,15 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../../../static/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="../../../static/myStyleSheet.css">
+<script>
 
+
+
+
+
+
+
+</script>
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]-->
@@ -27,71 +36,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
-<script src="../../../static/ForceDirected.js"></script>
   <![endif]-->
-   <style>
-        rect.bordered {
-        stroke: #E6E6E6;
-        stroke-width:2px;
-      }
-
-      text.mono {
-        font-size: 9pt;
-        font-family: Consolas, courier;
-        fill: #aaa;
-      }
-
-      text.axis-workweek {
-        fill: #000;
-      }
-
-      text.axis-worktime {
-        fill: #000;
-      }
-.tick line {
-    stroke-dasharray: 2 2 ;
-    stroke: #ccc;
-}
-
-.bar { fill:#b74e91;
-    margin-left: 2px;
-    margin-right:5px;
-}
-.line {
-  fill: none;
-  stroke: red;
-  stroke-width: 2px;
-}
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #fff;
-  shape-rendering: crispEdges;
-}
-
-.dot {
-  stroke: #000;
-  stroke-width: 1px;
-}
-
-.tooltip {
-  position: absolute;
-  width: 200px;
-  height: 28px;
-  pointer-events: none;
-}
-
-
-.link {
-  stroke: #000;
-}
-
-.node {
-  stroke: #fff;
-}
-
-
-</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -100,9 +45,9 @@
     <!-- Logo -->
     <a href="../../index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>UC</b>Q</span>
+      <span class="logo-mini"><b>MI</b>D</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>UnCertainity</b>Quantifier</span>
+      <span class="logo-lg"><b>Musical Instrument</b>Detection</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -141,11 +86,11 @@
 
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-       <ul class="sidebar-menu">
+      <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="/">
-            <i class="fa fa-dashboard"></i> <span>Error Fractions</span>
+            <i class="fa fa-dashboard"></i> <span>Detect Instruments</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -153,25 +98,25 @@
 
         </li>
         <li class="treeview">
-          <a href="/FD">
+          <a href="/results">
             <i class="fa fa-files-o"></i>
-            <span>Faulty Transcripts Uniquely Mapped or Ambiguous</span>
+            <span>Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
 
         </li>
-         <li class="treeview">
-          <a href="/PC">
+  <li class="treeview">
+          <a href="/cons_results">
             <i class="fa fa-files-o"></i>
-            <span>Properties Graph</span>
+            <span>Consolidated Results</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
 
-
+        </li>
 
       </ul>
     </section>
@@ -183,12 +128,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Data Analysis
-        <small>Data</small>
+       Detect Musical Instruments
+        <small>Results</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Data Analysis</li>
+        <li class="active">Detect Musical Instruments</li>
       </ol>
     </section>
 
@@ -196,92 +141,131 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-
-        </div>
         <div class="col-sm-12">
-
-        <div class="col-sm-12">
-
-
+            <div class ="col-md-6">
           <!-- AREA CHART -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Unique or Ambiguous</h3>
+              <h3 class="box-title">Philaharmonia-confusion matrix</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
-            </div>
-            <div id="forceDirected" class="box-body">
 
-              <div class="chart" id = "FD">
+            </div>
+           <div class="box-body">
+
+              <div class="chart">
+                  <img  src="../static/confusion_matrix_philharmonia.png" >
 
               </div>
             </div>
             <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
 
-          <!-- DONUT CHART -->
+    </div>
+            </div>
+              <div class ="col-md-6">
+          <!-- AREA CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Philaharmonia-classification report</h3>
 
-          <!-- /.box -->
- </div>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+
+            </div>
+           <div class="box-body">
+
+              <div class="chart">
+                  <img  src="../static/classification_report_philharmonia.png" >
+
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+    </div>
+            </div>
+
         </div>
         <!-- /.col (LEFT) -->
-
-<div class="col-sm-12">
-
-  <div class="col-sm-12">
+           <div class="col-sm-12">
+            <div class ="col-md-6">
           <!-- AREA CHART -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">MDS Euclidean</h3>
+              <h3 class="box-title">MIS-confusion matrix</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
-            </div>
-            <div id="mds" class="box-body">
 
-              <div class="chart" id = "mdsE">
-                <svg id="mdsE" style="height:350px"></svg>
+            </div>
+           <div class="box-body">
+
+              <div class="chart">
+                  <img  src="../static/Confusion_matrix_mis.png" >
+
               </div>
             </div>
             <!-- /.box-body -->
-          </div>
+
     </div>
-  <!--<div class="col-sm-12">-->
-          <!--&lt;!&ndash; AREA CHART &ndash;&gt;-->
-          <!--<div class="box box-primary">-->
-            <!--<div class="box-header with-border">-->
-              <!--<h3 class="box-title">ScatterPlot Matrix</h3>-->
+            </div>
+              <div class ="col-md-6">
+          <!-- AREA CHART -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">MIS-classification report</h3>
 
-              <!--<div class="box-tools pull-right">-->
-                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
-                <!--</button>-->
-                <!--<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div id="scatterPlot" class="box-body">-->
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
 
-              <!--<div class="chart" id = "scatterPlotMatrix">-->
-                <!--<svg id="scatterPlotMatrix" style="height:350px"></svg>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
-          <!--</div>-->
-    <!--</div>-->
+            </div>
+           <div class="box-body">
+
+              <div class="chart">
+                  <img  src="../static/classification_report_mis.png" >
+
+              </div>
+            </div>
+            <!-- /.box-body -->
+
+    </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+          <!-- AREA CHART -->
+
+          <!-- /.box -->
+
+          <!-- DONUT CHART -->
+
+          <!-- /.box -->
+
+
 </div>
           <!-- /.box -->
 
           <!-- DONUT CHART -->
 
           <!-- /.box -->
-</div>
+
 
         <!-- /.col (RIGHT) -->
 
