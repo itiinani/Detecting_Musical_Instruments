@@ -1,38 +1,30 @@
 
 # coding: utf-8
 
-# In[17]:
+# In[30]:
 
 import pandas as pd
 import glob
 import numpy as np
 from sklearn import svm
+from os import sys, path
 from sklearn import preprocessing
-from sklearn.cross_validation import StratifiedKFold, train_test_split
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
-from sklearn.grid_search import GridSearchCV
-from sklearn import neighbors
 from sklearn.pipeline import Pipeline
-
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, mean_absolute_error, accuracy_score
+from sklearn.externals import joblib
+from sklearn.cross_validation import StratifiedKFold
+from sklearn.feature_selection import mutual_info_classif, SelectKBest
+from sklearn.metrics import mean_squared_error, accuracy_score
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.metrics import precision_recall_fscore_support
-from sklearn.externals import joblib
-import random
 import seaborn as sns
 import matplotlib.pyplot as plt
-from os import sys, path
-
-THRESHOLD = 20
 IRMAS = 1
-RWC=2
-PHILHARMONIA = 3
+PHILHARMONIA = 2
+MIS = 3
 sns.set()
 
 
-# In[76]:
+# In[31]:
 
 def feature_preprocessing(dataset):
     if(dataset == IRMAS):
@@ -42,11 +34,9 @@ def feature_preprocessing(dataset):
         for filename in files:
             dfs.append(pd.read_csv(filename))     
         # Concatenate all dataFrames into a single DataFrame
-        data = pd.concat(dfs, ignore_index=True)           
-
-    if(dataset == RWC):    
-        data = pd.read_csv("Datasets\dataset_rwc\essentia_rwc_features.csv")
-        data.drop(data.columns[0],axis=1,inplace=True)
+        data = pd.concat(dfs, ignore_index=True)
+        data.fillna(0, inplace=True)
+        
     if(dataset == PHILHARMONIA):
         files = glob.glob('Datasets\philharmoni\*.csv')
         dfs = []
@@ -54,141 +44,121 @@ def feature_preprocessing(dataset):
             dfs.append(pd.read_csv(filename))
         # Concatenate all dataFrames into a single DataFrame
         data = pd.concat(dfs, ignore_index=True)
+        
+    if(dataset == MIS):
+        files = glob.glob('Datasets\MIS_Dataset\*.csv')
+        dfs = []
+        for filename in files:
+            dfs.append(pd.read_csv(filename))     
+        # Concatenate all dataFrames into a single DataFrame
+        data = pd.concat(dfs, ignore_index=True)
+        data.fillna(0, inplace=True)
     print "Done reading the music files"
-    
-    #Transform the features and target value to fit
-    X = data.drop(['class'], axis=1).values
-    X = preprocessing.Imputer().fit_transform(X)
-    y = data['class']
-    #le = preprocessing.LabelEncoder()
-    #y = le.fit_transform(y)
 
+    music_features = data.drop(['class'], axis=1).values  
+    music_features = preprocessing.Imputer().fit_transform(music_features)
+    inst_code = data['class']
     steps = [("scale", preprocessing.StandardScaler()),
               ('anova_filter', SelectKBest(mutual_info_classif, k=100)),
               ('svm', svm.SVC(decision_function_shape='ovo'))]
 
     model = Pipeline(steps)
-    return model, X, y
+    return model, music_features, inst_code
 
 
-# In[86]:
-
-df = pd.read_csv('Datasets\dataset_rwc\essentia_rwc_features.csv')
-list1 = [df.head(0)]
-df2 = pd.read_csv('Datasets/features_cel.csv')
-list2 = [df2.head(0)]
-print list1, list2
-d =pd.DataFrame()
-d['rwc']= list1
-d['imras']=list2
-d.to_csv('temp.csv', index=False)
-
-
-# In[78]:
+# In[32]:
 
 def saveModel(model, dataset):
     if dataset ==IRMAS:
-        joblib.dump(model, 'irmas2.model')
-    if dataset == RWC:
-        joblib.dump(model, 'rwc2.model')
+        joblib.dump(model, 'irmas.model')
     if dataset == PHILHARMONIA:
-        joblib.dump(model, 'Philharmonia2.model')
+        joblib.dump(model, 'Philharmonia.model')
+    if dataset ==MIS:
+        joblib.dump(model, 'mis.model')
     return
 
 
-# In[79]:
+# In[33]:
 
 def loadModel(dataset):
     if dataset ==IRMAS:
-        model = joblib.load('irmas2.model')
-    if dataset == RWC:
-        model = joblib.load('rwc2.model')
+        model = joblib.load('irmas.model')
     if dataset == PHILHARMONIA:
-        model = joblib.load('Philharmonia2.model')
+        model = joblib.load('Philharmonia.model')
+    if dataset ==MIS:
+        model = joblib.load('mis.model')
     return model
 
 
-# In[82]:
+# In[34]:
 
-def train_test(clf, X_train, y_train, dataset):
+def train_test(clf, music_features, inst_code, dataset):
     print("Fitting the data")
-    clf.fit(X_train, y_train)
+    clf.fit(music_features, inst_code)
     print("Save the model")
     saveModel(clf, dataset)
     print("Testing the model")
-    y_pred = clf.predict(X_train)    
-    """
-    dfpred = pd.DataFrame()
-    dfpred['pred'] = y_pred
-    dfpred['y']=y_train
-    dfpred['x']=X_train
-    for idx, row in dfpred.iterrows():
-        if row['pred']==row['y']:
-            print row['y'], row['pred']
-    #df.to_csv("correct_pred.csv", index=False)
-    
-    df = pd.DataFrame()
-    df['pred'] = y_pred
-    df['y']= y_train
-    df.to_csv('temp.csv', index=False)
-    """
+    detected_inst = clf.predict(music_features)    
     print("Quantify the performance")
-    Evaluate_accuracy(y_pred, y_train)
-
+    Evaluate_accuracy(detected_inst, inst_code, dataset)
     return
 
 
-# In[40]:
+# In[38]:
 
-def Evaluate_accuracy(pred, true_value):
-    print pred, true_value
-    print("Accuracy score is ", accuracy_score(true_value, pred)*100)
-    rmse = np.sqrt(mean_squared_error(true_value, pred))
+def Evaluate_accuracy(detected_inst, true_value, dataset):
+    print("Accuracy score is ", accuracy_score(true_value, detected_inst)*100)
+    rmse = np.sqrt(mean_squared_error(true_value, detected_inst))
     print("Root Mean Squared Error: {}".format(rmse))
-    print("Mean absolute error:", mean_absolute_error(true_value,pred))
-    print "Micro stats:"
-    print precision_recall_fscore_support(true_value, pred, average='micro')
-    print "Macro stats:"
-    print precision_recall_fscore_support(true_value, pred, average='macro')
     
     print("Classification Report: ")
-    cr = classification_report(true_value, pred)
+    cr = classification_report(true_value, detected_inst)
     xticks = ['precision', 'recall', 'f1-score', 'support']
-    yticks = list(np.unique(true_value))
-    yticks += ['avg']
-    rep = np.array(precision_recall_fscore_support(true_value, pred)).T
+    if dataset == IRMAS:
+        yticks = ['Unknown','Cello','Sax','Clarinet','Flute','Guitar','Piano','Trumpet','Violin','Banjo','Mandolin','Organ','Acoustic guitar','Electric guitar','Voice', 'Avg']
+    elif dataset == PHILHARMONIA:
+        yticks = ['Unknown','Cello','Sax','Clarinet','Flute','Guitar','Trumpet','Violin','Banjo','Mandolin']
+    elif dataset == MIS:
+        yticks = ['Unknown','Cello','Sax','Clarinet','Flute','Guitar','Piano']
+    rep = np.array(precision_recall_fscore_support(true_value, detected_inst)).T
     avg = np.mean(rep, axis=0)
     avg[-1] = np.sum(rep[:, -1])
     rep = np.insert(rep, rep.shape[0], avg, axis=0)
-    plt.title('Classification Report (Normalized)')
+    plt.title('Classification Report  :')
     rep =rep.astype('float') / rep.sum(axis=1)[:, np.newaxis]
     sns.heatmap(rep, annot=True, xticklabels=xticks, yticklabels=yticks, cmap="BuGn")
     plt.show()
     
     plt.title('Confusion matrix  :')
-    cm=confusion_matrix(true_value,pred)
+    cm=confusion_matrix(true_value,detected_inst)
     cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-    #f, ax = plt.subplots(figsize=(9, 6))
-    sns.heatmap(cm, annot=True, fmt=".2f", linewidths=.5, cmap="Blues")
+    plt.subplots(figsize=(15,10))
+    if dataset == IRMAS:
+        inst = ['Cello','Sax','Clarinet','Flute','Guitar','Piano','Trumpet','Violin','Banjo','Mandolin','Organ','Acoustic guitar','Electric guitar','Voice', 'Avg']
+    elif dataset == PHILHARMONIA:
+        inst = ['Cello','Sax','Clarinet','Flute','Guitar','Trumpet','Violin','Banjo','Mandolin']
+    elif dataset == MIS:
+        inst = ['Cello','Sax','Clarinet','Flute','Guitar','Piano']
+    sns.heatmap(cm, annot=True, xticklabels=inst, yticklabels=inst, fmt=".2f", linewidths=.5, cmap="Blues")
     
-    plt.xlabel('Predicted instrument code')
-    plt.ylabel('True value')
+    plt.xlabel('Predicted instruments')
+    plt.ylabel('True instruments')
     plt.show()
     return
 
 
-# In[81]:
+# In[ ]:
 
 if __name__ == "__main__":
     print("Training and testing on IRMAS dataset")
     classifier, X, y = feature_preprocessing(IRMAS)
     train_test(classifier, X, y, IRMAS)
-    print("Training and testing on RWC dataset")
-    #classifier, X, y = feature_preprocessing(RWC)
-    #train_test(classifier, X, y, RWC)
     print("Training and testing on PHILHARMONIA dataset")
     classifier, X, y = feature_preprocessing(PHILHARMONIA)
     train_test(classifier, X, y, PHILHARMONIA)
+    print("Training and testing on IOWA MIS dataset")
+    classifier, X, y = feature_preprocessing(MIS)
+    train_test(classifier, X, y, MIS)
     
     #model1 = loadModel(IRMAS)
     #test(model1, X, y)
@@ -257,3 +227,24 @@ if __name__ == "__main__":
 # (0.94799850484804005, 0.93801257128445081, 0.93641155563669853, None)
 # ('Classification Report: ', '             precision    recall  f1-score   support\n\n          0       0.97      0.97      0.97       106\n          1       0.98      0.64      0.77        80\n          2       0.98      0.98      0.98      1255\n          3       0.97      0.97      0.97       889\n          4       0.99      0.95      0.97       485\n          5       0.98      0.97      0.97       732\n          6       0.97      0.99      0.98       846\n          7       1.00      1.00      1.00       878\n          8       0.70      0.97      0.81        74\n\navg / total       0.98      0.97      0.97      5345\n')
 # 
+# 
+# 
+# MIS dataset:
+# ('Accuracy score is ', 99.387254901960787)
+# Root Mean Squared Error: 0.598199914121
+# ('Mean absolute error:', 0.046568627450980393)
+# Micro stats:
+# (0.99387254901960786, 0.99387254901960786, 0.99387254901960786, None)
+# Macro stats:
+# (0.99363381716322885, 0.98621107476069303, 0.98958542764970203, None)
+# 
+# 
+# 
+# irmas dataset+rwc+mis( model2:
+# ('Accuracy score is ', 71.461879225926793)
+# Root Mean Squared Error: 10.2347248121
+# ('Mean absolute error:', 4.2853034895469033)
+# Micro stats:
+# (0.71461879225926794, 0.71461879225926794, 0.71461879225926794, None)
+# Macro stats:
+# (0.75093259483969033, 0.73832350327427787, 0.72985875750350049, None)
